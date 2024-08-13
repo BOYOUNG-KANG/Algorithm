@@ -15,16 +15,12 @@ public class Solution {
         return true;
     }
 
-    public static void dfs(String numbers, String s, int depth, Set<Integer> nums, boolean[] isVisited) {
-        if (depth > numbers.length()) {
-            return;
-        }
-
-        for (int i = 0; i < numbers.length(); i++) {
+    public static void dfs(String numbers, String s, Set<Integer> nums, boolean[] isVisited) {
+         for (int i = 0; i < numbers.length(); i++) {
             if(!isVisited[i]) {
                 isVisited[i] = true;
                 nums.add(Integer.parseInt(s + numbers.charAt(i)));
-                dfs(numbers ,s + numbers.charAt(i), depth + 1, nums, isVisited);
+                dfs(numbers ,s + numbers.charAt(i), nums, isVisited);
                 isVisited[i] = false;
             }
         }
@@ -34,15 +30,14 @@ public class Solution {
         int answer = 0;
         Set<Integer> nums = new HashSet<>();
         // 소수 : 0~거듭제곱까지 나누었을 모든 경우에 나머지가 0이 아님을 확인
-        // 순열
-        char[] temp = numbers.toCharArray();
+	      char[] temp = numbers.toCharArray();
         int[] arr = new int[temp.length];
         boolean[] isVisited = new boolean[arr.length];
         for (int i = 0; i < arr.length; i++) {
             arr[i] = Character.getNumericValue(temp[i]);
         }
         
-        dfs(numbers, "", 0, nums, isVisited);
+        dfs(numbers, "", nums, isVisited);
         
         for (int n : nums) {
             if (isPrime(n)) {
