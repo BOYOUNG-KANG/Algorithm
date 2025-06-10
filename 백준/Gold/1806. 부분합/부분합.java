@@ -1,32 +1,40 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-class Main {
+public class Main {
+    static int ans = Integer.MAX_VALUE;
+    static int n;
+    static int s;
+    static int[] arr;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int S = Integer.parseInt(st.nextToken());
-        int[] arr = new int[N];
+
+        n = Integer.parseInt(st.nextToken());
+        s = Integer.parseInt(st.nextToken());
         st = new StringTokenizer(br.readLine());
-        int v = 0;
-        for (int i = 0; i < N; i++) {
+        arr = new int[n];
+        for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
-            v += arr[i];
-        }
-        int min = N;
-        for (int i = 0; i < N; i++) {
-            int sum = 0;
-            for (int j = i; j < N; j++) {
-                sum += arr[j];
-                if (sum >= S) {
-                    min = Math.min(min, j-i+1);
-                    break;
-                }
-            }
         }
 
-        System.out.println(v < S ? 0 : min);
+        int now = 0; int start = 0; int end = 0;
+
+        while (true) {
+            if (now >= s) {
+                ans = Math.min(ans, end - start);
+                now -= arr[start++];
+            } else if (end == n) break;
+            else now += arr[end++];
+        }
+
+        if (ans == Integer.MAX_VALUE) {
+            System.out.println(0);
+            return;
+        }
+        System.out.println(ans);
     }
 }
