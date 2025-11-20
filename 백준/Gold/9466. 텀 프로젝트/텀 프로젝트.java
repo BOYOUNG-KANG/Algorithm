@@ -5,7 +5,7 @@ public class Main {
     static boolean[] visited;
     static boolean[] done;
     static int[] arr;
-    static int result;
+    static int cnt;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -19,7 +19,7 @@ public class Main {
             }
             visited = new boolean[n+1];
             done = new boolean[n+1];
-            result = 0;
+            cnt = 0;
 
             for (int i = 1; i <= n; i++) {
                 if (!visited[i]) {
@@ -27,7 +27,7 @@ public class Main {
                 }
             }
 
-            System.out.println(n - result);
+            System.out.println(n - cnt);
         }
     }
     private static void dfs(int now){
@@ -36,11 +36,10 @@ public class Main {
 
         if (!visited[next]) {
             dfs(next);
-        } else if (!done[next]){
-            result++;
-            for (int i = next; i != now; i = arr[i]) result++;
+        } else if (!done[next]) {
+            cnt++;
+            for (int i = next; i != now; i = arr[i]) cnt++;
         }
-
         done[now] = true;
     }
 }
