@@ -1,23 +1,19 @@
 class Solution {
-    static int[] nums;
-	static int t;
-	static int cnt;
-    public static int solution(int[] numbers, int target) {
-        t = target;
-        nums = new int[numbers.length];
-        for (int i = 0; i < numbers.length; i++) {
-        	nums[i] = numbers[i];
-        }
+    static int cnt;
+    public int solution(int[] numbers, int target) {
         cnt = 0;
-        combination(0, 0);
+        dfs(numbers, target, 0, 0);
         return cnt;
     }
-	public static void combination(int idx, int sum) {
-		if (idx == nums.length) {
-			if (sum == t) cnt++;
-			return;
-		}
-		combination(idx+1, sum+nums[idx]);
-		combination(idx+1, sum-nums[idx]);
-	}
+    public void dfs(int[] numbers, int target, int idx, int now){
+        if (idx == numbers.length) {
+            if (now == target) {
+                cnt++;
+            } 
+            return;
+        }
+        
+        dfs(numbers, target, idx+1, now + numbers[idx]);
+        dfs(numbers, target, idx+1, now - numbers[idx]);
+    }
 }
