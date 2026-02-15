@@ -1,37 +1,37 @@
 import java.util.*;
 
 class Solution {
-    public static int[] solution(int[] progresses, int[] speeds) {
-        int[] remains = new int[progresses.length];
-
-        for (int i = 0; i < progresses.length; i++) {
-            int remain = 100 - progresses[i];
-            int day = remain / speeds[i];
-            if (day * speeds[i] < remain) day++;
-            remains[i] = day;
-        }
-
-        int max = Integer.MIN_VALUE;
+    public int[] solution(int[] progresses, int[] speeds) {
         List<Integer> list = new ArrayList<>();
-        int count = 0;
-
-        for (int i = 0; i < remains.length; i++) {
-            if (remains[i] > max) {
-                if (count > 0) {
-                    list.add(count);
-                }
-                max = remains[i];
-                count = 1;
+        int[] days = new int[progresses.length];
+        
+        for (int i = 0; i < progresses.length; i++) {
+            int tmp = (100 - progresses[i]) / speeds[i];
+            if (progresses[i] + tmp * speeds[i] < 100) {
+                tmp += 1;
+            } 
+            days[i] = tmp;
+        }
+        
+        int max = days[0];
+        int cnt  = 1;
+        for (int i = 1; i < progresses.length; i++) {
+            if (max >= days[i]) {
+                cnt++;
             } else {
-                count++;
+                list.add(cnt);
+                cnt = 1;
+                max = days[i];
             }
         }
-        list.add(count);
+        list.add(cnt);
+        
         
         int[] answer = new int[list.size()];
         for (int i = 0; i < list.size(); i++) {
             answer[i] = list.get(i);
         }
+        
         return answer;
     }
 }
