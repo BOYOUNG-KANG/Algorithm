@@ -1,37 +1,45 @@
 import java.util.*;
 
 class Solution {
+    static int[] days;
     public int[] solution(int[] progresses, int[] speeds) {
-        List<Integer> list = new ArrayList<>();
-        int[] days = new int[progresses.length];
         
+        days = new int[progresses.length];
         for (int i = 0; i < progresses.length; i++) {
-            int tmp = (100 - progresses[i]) / speeds[i];
-            if (progresses[i] + tmp * speeds[i] < 100) {
-                tmp += 1;
-            } 
-            days[i] = tmp;
+            int remain = (100 - progresses[i]);
+            int day = (remain % speeds[i] > 0) ?
+                (remain / speeds[i] + 1) : (remain / speeds[i]);
+            
+            days[i] = day;
         }
+        System.out.println(Arrays.toString(days));
         
-        int max = days[0];
-        int cnt  = 1;
-        for (int i = 1; i < progresses.length; i++) {
-            if (max >= days[i]) {
-                cnt++;
+        Deque<Integer> stack = new ArrayDeque<>();
+        List<Integer> answer = new ArrayList<>();
+        int idx = 0;
+        
+        for (int i = 0; i < days.length; i++) {
+            if (stack.isEmpty()) {
+                stack.push(days[i]);
+                answer.add(1);
             } else {
-                list.add(cnt);
-                cnt = 1;
-                max = days[i];
+                int prev = stack.peek();
+                
+                if (prev >= days[i]) {
+                    int tmp = answer.get(idx);
+                    answer.set(idx, tmp+1);
+                } else {
+                    stack.push(days[i]);
+                    idx++;
+                    answer.add(1);
+                }
             }
+            
         }
-        list.add(cnt);
-        
-        
-        int[] answer = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            answer[i] = list.get(i);
+        int[] result = new int[answer.size()];
+        for (int i = 0; i < answer.size(); i++) {
+            result[i] = answer.get(i);
         }
-        
-        return answer;
+        return result;
     }
 }
