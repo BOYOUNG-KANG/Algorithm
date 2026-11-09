@@ -13,9 +13,7 @@ public class Main {
             A[i] = sc.nextInt();
         }
         maxV = Integer.MIN_VALUE;
-        //visited[0] = true;
         List<Integer> val = new LinkedList<>();
-        //val.add(A[0]);
         dfs(val, -1);
         System.out.println(maxV);
     }
